@@ -1,0 +1,39 @@
+{
+  "name": "friendpromiseplanner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kdh19911031/FriendPromisePlanner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kdh19911031/FriendPromisePlanner/issues"
+  },
+  "homepage": "https://github.com/kdh19911031/FriendPromisePlanner#readme",
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "autoprefixer": "^10.5.0",
+    "next": "^14.2.35",
+    "postcss": "^8.5.13",
+    "prisma": "^5.22.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.19"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.39",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.9.3"
+  }
+}

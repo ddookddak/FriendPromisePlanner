@@ -1,0 +1,49 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  createdBy   String
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  participants Participant[]
+  schedules    Schedule[]
+}
+
+model Participant {
+  id       String   @id @default(cuid())
+  name     String
+  roomId   String
+  joinedAt DateTime @default(now())
+
+  room      Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  schedules Schedule[]
+
+  @@unique([name, roomId])
+}
+
+model Schedule {
+  id            String   @id @default(cuid())
+  participantId String
+  roomId        String
+  date          DateTime
+  createdAt     DateTime @default(now())
+
+  participant Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  room        Room        @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, roomId, date])
+}
