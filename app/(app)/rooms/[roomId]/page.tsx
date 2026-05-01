@@ -35,7 +35,6 @@ export default function RoomPage({ params }: Props) {
     try {
       const res = await fetch(`/api/rooms/${params.roomId}`)
       const data = await res.json()
-      console.log('Room fetched:', data)
       setRoom(data)
     } catch (error) {
       console.error('Failed to fetch room:', error)
@@ -49,7 +48,6 @@ export default function RoomPage({ params }: Props) {
   }
 
   const handleJoinSuccess = () => {
-    console.log('Join successful, fetching room...')
     fetchRoom()
   }
 
@@ -69,13 +67,6 @@ export default function RoomPage({ params }: Props) {
 
   const isMember = room.participants.some((p) => p.name === currentUserName)
   const isCreator = room.createdBy === currentUserName
-
-  console.log('RoomPage render:', {
-    roomId: room.id,
-    currentUserName,
-    isMember,
-    participants: room.participants.map(p => p.name),
-  })
 
   return (
     <div>
