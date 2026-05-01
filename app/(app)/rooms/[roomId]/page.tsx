@@ -70,6 +70,13 @@ export default function RoomPage({ params }: Props) {
   const isMember = room.participants.some((p) => p.name === currentUserName)
   const isCreator = room.createdBy === currentUserName
 
+  console.log('RoomPage render:', {
+    roomId: room.id,
+    currentUserName,
+    isMember,
+    participants: room.participants.map(p => p.name),
+  })
+
   return (
     <div>
       <div className="mb-6">
