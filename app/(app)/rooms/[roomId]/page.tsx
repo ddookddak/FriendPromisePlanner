@@ -31,10 +31,24 @@ export default function RoomPage({ params }: Props) {
   const [currentUserName, setCurrentUserName] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const fetchRoom = async () => {
+    try {
+      const res = await fetch(`/api/rooms/${params.roomId}`)
+      const data = await res.json()
+      setRoom(data)
+    } catch (error) {
+      console.error('Failed to fetch room:', error)
+    }
+  }
+
   const handleStatusChange = (newStatus: string, confirmedDate: string | null) => {
     if (room) {
       setRoom({ ...room, status: newStatus, confirmedDate })
     }
+  }
+
+  const handleJoinSuccess = () => {
+    fetchRoom()
   }
 
   useEffect(() => {
@@ -45,13 +59,7 @@ export default function RoomPage({ params }: Props) {
     }
     setCurrentUserName(nickname)
 
-    fetch(`/api/rooms/${params.roomId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setRoom(data)
-        setLoading(false)
-      })
-      .catch(() => setLoading(false))
+    fetchRoom().then(() => setLoading(false))
   }, [params.roomId, router])
 
   if (loading) return <div className="text-center py-20">로드 중...</div>
@@ -111,7 +119,7 @@ export default function RoomPage({ params }: Props) {
         {!isMember && (
           <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <p className="text-sm text-yellow-800 mb-3">이 방에 아직 참여하지 않았습니다.</p>
-            <JoinRoomButton roomId={room.id} currentUserName={currentUserName || ''} />
+            <JoinRoomButton roomId={room.id} currentUserName={currentUserName || ''} onJoinSuccess={handleJoinSuccess} />
           </div>
         )}
       </div>

@@ -1,9 +1,13 @@
 'use client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
-export function JoinRoomButton({ roomId, currentUserName }: { roomId: string; currentUserName: string }) {
-  const router = useRouter()
+interface Props {
+  roomId: string
+  currentUserName: string
+  onJoinSuccess?: () => void
+}
+
+export function JoinRoomButton({ roomId, currentUserName, onJoinSuccess }: Props) {
   const [loading, setLoading] = useState(false)
 
   async function handleJoin() {
@@ -15,7 +19,7 @@ export function JoinRoomButton({ roomId, currentUserName }: { roomId: string; cu
         headers: { 'Content-Type': 'application/json' },
       })
       if (res.ok) {
-        router.refresh()
+        onJoinSuccess?.()
       } else {
         alert('참여에 실패했습니다.')
         setLoading(false)
