@@ -198,3 +198,57 @@ prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`de
  GET /api/rooms-list 200 in 5ms
    Reload env: .env
  ✓ Compiled in 157ms (540 modules)
+ GET / 200 in 79ms
+ ✓ Compiled /api/rooms-list in 95ms (304 modules)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`description`, `main`.`Room`.`startDate`, `main`.`Room`.`endDate`, `main`.`Room`.`createdBy`, `main`.`Room`.`status`, `main`.`Room`.`confirmedDate`, `main`.`Room`.`createdAt`, `main`.`Room`.`updatedAt`, COALESCE(`aggr_selection_0_Participant`.`_aggr_count_participants`, 0) AS `_aggr_count_participants` FROM `main`.`Room` LEFT JOIN (SELECT `main`.`Participant`.`roomId`, COUNT(*) AS `_aggr_count_participants` FROM `main`.`Participant` WHERE 1=1 GROUP BY `main`.`Participant`.`roomId`) AS `aggr_selection_0_Participant` ON (`main`.`Room`.`id` = `aggr_selection_0_Participant`.`roomId`) WHERE 1=1 ORDER BY `main`.`Room`.`createdAt` DESC LIMIT ? OFFSET ?
+ GET /api/rooms-list 200 in 135ms
+prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`description`, `main`.`Room`.`startDate`, `main`.`Room`.`endDate`, `main`.`Room`.`createdBy`, `main`.`Room`.`status`, `main`.`Room`.`confirmedDate`, `main`.`Room`.`createdAt`, `main`.`Room`.`updatedAt`, COALESCE(`aggr_selection_0_Participant`.`_aggr_count_participants`, 0) AS `_aggr_count_participants` FROM `main`.`Room` LEFT JOIN (SELECT `main`.`Participant`.`roomId`, COUNT(*) AS `_aggr_count_participants` FROM `main`.`Participant` WHERE 1=1 GROUP BY `main`.`Participant`.`roomId`) AS `aggr_selection_0_Participant` ON (`main`.`Room`.`id` = `aggr_selection_0_Participant`.`roomId`) WHERE 1=1 ORDER BY `main`.`Room`.`createdAt` DESC LIMIT ? OFFSET ?
+ GET /api/rooms-list 200 in 6ms
+ ✓ Compiled /api/rooms in 60ms (306 modules)
+prisma:query BEGIN IMMEDIATE
+prisma:query INSERT INTO `main`.`Room` (`id`, `title`, `description`, `startDate`, `endDate`, `createdBy`, `status`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?,?,?) RETURNING `id` AS `id`
+prisma:query INSERT INTO `main`.`Participant` (`id`, `name`, `roomId`, `joinedAt`) VALUES (?,?,?,?) RETURNING `id` AS `id`
+prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`description`, `main`.`Room`.`startDate`, `main`.`Room`.`endDate`, `main`.`Room`.`createdBy`, `main`.`Room`.`status`, `main`.`Room`.`confirmedDate`, `main`.`Room`.`createdAt`, `main`.`Room`.`updatedAt` FROM `main`.`Room` WHERE `main`.`Room`.`id` = ? LIMIT ? OFFSET ?
+prisma:query COMMIT
+ POST /api/rooms 201 in 108ms
+ ✓ Compiled /api/rooms/[roomId] in 55ms (308 modules)
+prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`description`, `main`.`Room`.`startDate`, `main`.`Room`.`endDate`, `main`.`Room`.`createdBy`, `main`.`Room`.`status`, `main`.`Room`.`confirmedDate`, `main`.`Room`.`createdAt`, `main`.`Room`.`updatedAt`, COALESCE(`aggr_selection_0_Schedule`.`_aggr_count_schedules`, 0) AS `_aggr_count_schedules` FROM `main`.`Room` LEFT JOIN (SELECT `main`.`Schedule`.`roomId`, COUNT(*) AS `_aggr_count_schedules` FROM `main`.`Schedule` WHERE 1=1 GROUP BY `main`.`Schedule`.`roomId`) AS `aggr_selection_0_Schedule` ON (`main`.`Room`.`id` = `aggr_selection_0_Schedule`.`roomId`) WHERE (`main`.`Room`.`id` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Participant`.`id`, `main`.`Participant`.`name`, `main`.`Participant`.`roomId` FROM `main`.`Participant` WHERE `main`.`Participant`.`roomId` IN (?) LIMIT ? OFFSET ?
+ GET /api/rooms/cmon6c1xe0006jga9er2vw3tz 200 in 79ms
+prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`description`, `main`.`Room`.`startDate`, `main`.`Room`.`endDate`, `main`.`Room`.`createdBy`, `main`.`Room`.`status`, `main`.`Room`.`confirmedDate`, `main`.`Room`.`createdAt`, `main`.`Room`.`updatedAt`, COALESCE(`aggr_selection_0_Schedule`.`_aggr_count_schedules`, 0) AS `_aggr_count_schedules` FROM `main`.`Room` LEFT JOIN (SELECT `main`.`Schedule`.`roomId`, COUNT(*) AS `_aggr_count_schedules` FROM `main`.`Schedule` WHERE 1=1 GROUP BY `main`.`Schedule`.`roomId`) AS `aggr_selection_0_Schedule` ON (`main`.`Room`.`id` = `aggr_selection_0_Schedule`.`roomId`) WHERE (`main`.`Room`.`id` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Participant`.`id`, `main`.`Participant`.`name`, `main`.`Participant`.`roomId` FROM `main`.`Participant` WHERE `main`.`Participant`.`roomId` IN (?) LIMIT ? OFFSET ?
+ GET /api/rooms/cmon6c1xe0006jga9er2vw3tz 200 in 7ms
+ ✓ Compiled /api/rooms/[roomId]/schedules in 134ms (310 modules)
+prisma:query SELECT `main`.`Schedule`.`id`, `main`.`Schedule`.`participantId`, `main`.`Schedule`.`roomId`, `main`.`Schedule`.`date`, `main`.`Schedule`.`createdAt` FROM `main`.`Schedule` WHERE `main`.`Schedule`.`roomId` = ? LIMIT ? OFFSET ?
+ GET /api/rooms/cmon6c1xe0006jga9er2vw3tz/schedules 200 in 161ms
+prisma:query SELECT `main`.`Schedule`.`id`, `main`.`Schedule`.`participantId`, `main`.`Schedule`.`roomId`, `main`.`Schedule`.`date`, `main`.`Schedule`.`createdAt` FROM `main`.`Schedule` WHERE `main`.`Schedule`.`roomId` = ? LIMIT ? OFFSET ?
+ GET /api/rooms/cmon6c1xe0006jga9er2vw3tz/schedules 200 in 6ms
+prisma:query SELECT `main`.`Participant`.`id`, `main`.`Participant`.`name`, `main`.`Participant`.`roomId`, `main`.`Participant`.`joinedAt` FROM `main`.`Participant` WHERE ((`main`.`Participant`.`name` = ? AND `main`.`Participant`.`roomId` = ?) AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Schedule`.`id`, `main`.`Schedule`.`participantId`, `main`.`Schedule`.`roomId`, `main`.`Schedule`.`date`, `main`.`Schedule`.`createdAt` FROM `main`.`Schedule` WHERE ((`main`.`Schedule`.`participantId` = ? AND `main`.`Schedule`.`roomId` = ? AND `main`.`Schedule`.`date` = ?) AND 1=1) LIMIT ? OFFSET ?
+prisma:query INSERT INTO `main`.`Schedule` (`id`, `participantId`, `roomId`, `date`, `createdAt`) VALUES (?,?,?,?,?) RETURNING `id` AS `id`, `participantId` AS `participantId`, `roomId` AS `roomId`, `date` AS `date`, `createdAt` AS `createdAt`
+ PUT /api/rooms/cmon6c1xe0006jga9er2vw3tz/schedules 200 in 21ms
+prisma:query SELECT `main`.`Schedule`.`id`, `main`.`Schedule`.`participantId`, `main`.`Schedule`.`roomId`, `main`.`Schedule`.`date`, `main`.`Schedule`.`createdAt` FROM `main`.`Schedule` WHERE `main`.`Schedule`.`roomId` = ? LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Participant`.`id`, `main`.`Participant`.`name` FROM `main`.`Participant` WHERE `main`.`Participant`.`id` IN (?) LIMIT ? OFFSET ?
+ GET /api/rooms/cmon6c1xe0006jga9er2vw3tz/schedules 200 in 6ms
+prisma:query SELECT `main`.`Participant`.`id`, `main`.`Participant`.`name`, `main`.`Participant`.`roomId`, `main`.`Participant`.`joinedAt` FROM `main`.`Participant` WHERE ((`main`.`Participant`.`name` = ? AND `main`.`Participant`.`roomId` = ?) AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Schedule`.`id`, `main`.`Schedule`.`participantId`, `main`.`Schedule`.`roomId`, `main`.`Schedule`.`date`, `main`.`Schedule`.`createdAt` FROM `main`.`Schedule` WHERE ((`main`.`Schedule`.`participantId` = ? AND `main`.`Schedule`.`roomId` = ? AND `main`.`Schedule`.`date` = ?) AND 1=1) LIMIT ? OFFSET ?
+prisma:query INSERT INTO `main`.`Schedule` (`id`, `participantId`, `roomId`, `date`, `createdAt`) VALUES (?,?,?,?,?) RETURNING `id` AS `id`, `participantId` AS `participantId`, `roomId` AS `roomId`, `date` AS `date`, `createdAt` AS `createdAt`
+ PUT /api/rooms/cmon6c1xe0006jga9er2vw3tz/schedules 200 in 20ms
+prisma:query SELECT `main`.`Schedule`.`id`, `main`.`Schedule`.`participantId`, `main`.`Schedule`.`roomId`, `main`.`Schedule`.`date`, `main`.`Schedule`.`createdAt` FROM `main`.`Schedule` WHERE `main`.`Schedule`.`roomId` = ? LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Participant`.`id`, `main`.`Participant`.`name` FROM `main`.`Participant` WHERE `main`.`Participant`.`id` IN (?) LIMIT ? OFFSET ?
+ GET /api/rooms/cmon6c1xe0006jga9er2vw3tz/schedules 200 in 5ms
+ ✓ Compiled /api/rooms/[roomId]/status in 97ms (312 modules)
+prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`description`, `main`.`Room`.`startDate`, `main`.`Room`.`endDate`, `main`.`Room`.`createdBy`, `main`.`Room`.`status`, `main`.`Room`.`confirmedDate`, `main`.`Room`.`createdAt`, `main`.`Room`.`updatedAt` FROM `main`.`Room` WHERE (`main`.`Room`.`id` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Schedule`.`id`, `main`.`Schedule`.`participantId`, `main`.`Schedule`.`roomId`, `main`.`Schedule`.`date`, `main`.`Schedule`.`createdAt` FROM `main`.`Schedule` WHERE `main`.`Schedule`.`roomId` = ? LIMIT ? OFFSET ?
+prisma:query UPDATE `main`.`Room` SET `status` = ?, `confirmedDate` = ?, `updatedAt` = ? WHERE (`main`.`Room`.`id` = ? AND 1=1) RETURNING `id` AS `id`, `title` AS `title`, `description` AS `description`, `startDate` AS `startDate`, `endDate` AS `endDate`, `createdBy` AS `createdBy`, `status` AS `status`, `confirmedDate` AS `confirmedDate`, `createdAt` AS `createdAt`, `updatedAt` AS `updatedAt`
+ PATCH /api/rooms/cmon6c1xe0006jga9er2vw3tz/status 200 in 131ms
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`description`, `main`.`Room`.`startDate`, `main`.`Room`.`endDate`, `main`.`Room`.`createdBy`, `main`.`Room`.`status`, `main`.`Room`.`confirmedDate`, `main`.`Room`.`createdAt`, `main`.`Room`.`updatedAt` FROM `main`.`Room` WHERE (`main`.`Room`.`id` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query DELETE FROM `main`.`Room` WHERE (`main`.`Room`.`id` = ? AND 1=1) RETURNING `id` AS `id`, `title` AS `title`, `description` AS `description`, `startDate` AS `startDate`, `endDate` AS `endDate`, `createdBy` AS `createdBy`, `status` AS `status`, `confirmedDate` AS `confirmedDate`, `createdAt` AS `createdAt`, `updatedAt` AS `updatedAt`
+ DELETE /api/rooms/cmon6c1xe0006jga9er2vw3tz 200 in 21ms
+prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`description`, `main`.`Room`.`startDate`, `main`.`Room`.`endDate`, `main`.`Room`.`createdBy`, `main`.`Room`.`status`, `main`.`Room`.`confirmedDate`, `main`.`Room`.`createdAt`, `main`.`Room`.`updatedAt`, COALESCE(`aggr_selection_0_Participant`.`_aggr_count_participants`, 0) AS `_aggr_count_participants` FROM `main`.`Room` LEFT JOIN (SELECT `main`.`Participant`.`roomId`, COUNT(*) AS `_aggr_count_participants` FROM `main`.`Participant` WHERE 1=1 GROUP BY `main`.`Participant`.`roomId`) AS `aggr_selection_0_Participant` ON (`main`.`Room`.`id` = `aggr_selection_0_Participant`.`roomId`) WHERE 1=1 ORDER BY `main`.`Room`.`createdAt` DESC LIMIT ? OFFSET ?
+ GET /api/rooms-list 200 in 7ms
+prisma:query SELECT `main`.`Room`.`id`, `main`.`Room`.`title`, `main`.`Room`.`description`, `main`.`Room`.`startDate`, `main`.`Room`.`endDate`, `main`.`Room`.`createdBy`, `main`.`Room`.`status`, `main`.`Room`.`confirmedDate`, `main`.`Room`.`createdAt`, `main`.`Room`.`updatedAt`, COALESCE(`aggr_selection_0_Participant`.`_aggr_count_participants`, 0) AS `_aggr_count_participants` FROM `main`.`Room` LEFT JOIN (SELECT `main`.`Participant`.`roomId`, COUNT(*) AS `_aggr_count_participants` FROM `main`.`Participant` WHERE 1=1 GROUP BY `main`.`Participant`.`roomId`) AS `aggr_selection_0_Participant` ON (`main`.`Room`.`id` = `aggr_selection_0_Participant`.`roomId`) WHERE 1=1 ORDER BY `main`.`Room`.`createdAt` DESC LIMIT ? OFFSET ?
+ GET /api/rooms-list 200 in 6ms
+ ✓ Compiled in 265ms (554 modules)

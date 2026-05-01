@@ -8,12 +8,22 @@ export function JoinRoomButton({ roomId, currentUserName }: { roomId: string; cu
 
   async function handleJoin() {
     setLoading(true)
-    await fetch(`/api/rooms/${roomId}/join`, {
-      method: 'POST',
-      body: JSON.stringify({ name: currentUserName }),
-      headers: { 'Content-Type': 'application/json' },
-    })
-    router.refresh()
+    try {
+      const res = await fetch(`/api/rooms/${roomId}/join`, {
+        method: 'POST',
+        body: JSON.stringify({ name: currentUserName }),
+        headers: { 'Content-Type': 'application/json' },
+      })
+      if (res.ok) {
+        router.refresh()
+      } else {
+        alert('참여에 실패했습니다.')
+        setLoading(false)
+      }
+    } catch (error) {
+      alert('오류가 발생했습니다.')
+      setLoading(false)
+    }
   }
 
   return (
