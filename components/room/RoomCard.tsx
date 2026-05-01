@@ -9,6 +9,7 @@ interface Props {
     endDate: Date
     createdBy: string
     status: string
+    confirmedDate: string | null
     _count: { participants: number }
   }
 }
@@ -38,6 +39,9 @@ export function RoomCard({ room }: Props) {
         )}
         <div className="text-xs text-gray-400 space-y-1">
           <p>📅 {start} ~ {end}</p>
+          {room.status === 'CONFIRMED' && room.confirmedDate && (
+            <p className="text-blue-600 font-medium">✓ 확정: {new Date(room.confirmedDate).toLocaleDateString('ko-KR')}</p>
+          )}
           <p>👥 {room._count.participants}명 참여</p>
           <p>✏️ 생성: {room.createdBy}</p>
         </div>

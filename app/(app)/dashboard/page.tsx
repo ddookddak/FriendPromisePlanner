@@ -12,6 +12,7 @@ interface Room {
   endDate: Date
   createdBy: string
   status: string
+  confirmedDate: string | null
   _count: { participants: number }
 }
 

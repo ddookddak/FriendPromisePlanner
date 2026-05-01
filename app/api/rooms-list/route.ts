@@ -15,5 +15,6 @@ export async function GET() {
     ...room,
     startDate: room.startDate.toISOString(),
     endDate: room.endDate.toISOString(),
+    confirmedDate: room.confirmedDate ? room.confirmedDate.toISOString() : null,
   })))
 }

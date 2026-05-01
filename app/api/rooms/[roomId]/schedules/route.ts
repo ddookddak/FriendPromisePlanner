@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+function formatDateLocal(date: Date): string {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { roomId: string } }
@@ -12,12 +19,17 @@ export async function GET(
 
   const grouped: Record<string, { participants: { id: string; name: string }[] }> = {}
   for (const s of schedules) {
-    const dateKey = s.date.toISOString().split('T')[0]
+    const dateKey = formatDateLocal(s.date)
     if (!grouped[dateKey]) grouped[dateKey] = { participants: [] }
     grouped[dateKey].participants.push(s.participant)
   }
 
   return NextResponse.json(grouped)
+}
+
+function parseLocalDate(dateStr: string): Date {
+  const [year, month, day] = dateStr.split('-').map(Number)
+  return new Date(year, month - 1, day, 0, 0, 0, 0)
 }
 
 export async function PUT(
@@ -30,8 +42,7 @@ export async function PUT(
     return NextResponse.json({ error: '참여자 이름 필수' }, { status: 400 })
   }
 
-  const dateObj = new Date(date)
-  dateObj.setHours(0, 0, 0, 0)
+  const dateObj = parseLocalDate(date)
 
   const participant = await prisma.participant.findUnique({
     where: { name_roomId: { name: participantName, roomId: params.roomId } },

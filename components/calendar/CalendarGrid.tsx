@@ -12,6 +12,7 @@ interface Props {
   onSelectDate: (date: string) => void
   onToggle: (date: string) => void
   toggling: string | null
+  roomStatus?: string
 }
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
@@ -25,6 +26,7 @@ export function CalendarGrid({
   onSelectDate,
   onToggle,
   toggling,
+  roomStatus,
 }: Props) {
   const dates = useMemo(
     () => getDateRange(new Date(startDate), new Date(endDate)),
@@ -71,6 +73,7 @@ export function CalendarGrid({
 
               {monthDates.map((date) => {
                 const dateStr = formatDate(date)
+                const isDisabled = roomStatus === 'CONFIRMED' || roomStatus === 'CLOSED'
                 return (
                   <DayCell
                     key={dateStr}
@@ -79,8 +82,9 @@ export function CalendarGrid({
                     totalMembers={totalMembers}
                     isSelected={selectedDate === dateStr}
                     isToggling={toggling === dateStr}
+                    isDisabled={isDisabled}
                     onSelect={() => onSelectDate(dateStr)}
-                    onToggle={() => onToggle(dateStr)}
+                    onToggle={() => !isDisabled && onToggle(dateStr)}
                   />
                 )
               })}

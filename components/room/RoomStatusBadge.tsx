@@ -7,6 +7,7 @@ interface Props {
   roomId: string
   initialStatus: RoomStatus
   currentUserName: string
+  onStatusChange?: (newStatus: RoomStatus, confirmedDate: string | null) => void
 }
 
 const statusOptions: { value: RoomStatus; label: string; color: string }[] = [
@@ -15,7 +16,7 @@ const statusOptions: { value: RoomStatus; label: string; color: string }[] = [
   { value: 'CLOSED', label: '마감', color: 'bg-gray-100 text-gray-500' },
 ]
 
-export function RoomStatusBadge({ roomId, initialStatus, currentUserName }: Props) {
+export function RoomStatusBadge({ roomId, initialStatus, currentUserName, onStatusChange }: Props) {
   const [status, setStatus] = useState<RoomStatus>(initialStatus)
   const [loading, setLoading] = useState(false)
 
@@ -28,7 +29,9 @@ export function RoomStatusBadge({ roomId, initialStatus, currentUserName }: Prop
       body: JSON.stringify({ status: newStatus, name: currentUserName }),
     })
     if (res.ok) {
+      const data = await res.json()
       setStatus(newStatus)
+      onStatusChange?.(newStatus, data.confirmedDate)
     } else {
       const data = await res.json()
       alert(data.error || '상태 변경 실패')

@@ -9,6 +9,7 @@ interface Props {
   endDate: string
   totalMembers: number
   currentUserName: string
+  roomStatus?: string
 }
 
 export interface DayData {
@@ -18,7 +19,7 @@ export interface DayData {
 
 export type ScheduleMap = Record<string, DayData>
 
-export function CalendarView({ roomId, startDate, endDate, totalMembers, currentUserName }: Props) {
+export function CalendarView({ roomId, startDate, endDate, totalMembers, currentUserName, roomStatus }: Props) {
   const [schedules, setSchedules] = useState<ScheduleMap>({})
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -94,6 +95,7 @@ export function CalendarView({ roomId, startDate, endDate, totalMembers, current
           onSelectDate={setSelectedDate}
           onToggle={handleToggle}
           toggling={toggling}
+          roomStatus={roomStatus}
         />
       </div>
 

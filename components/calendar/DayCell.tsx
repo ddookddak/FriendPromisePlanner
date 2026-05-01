@@ -7,6 +7,7 @@ interface Props {
   totalMembers: number
   isSelected: boolean
   isToggling: boolean
+  isDisabled?: boolean
   onSelect: () => void
   onToggle: () => void
 }
@@ -17,6 +18,7 @@ export function DayCell({
   totalMembers,
   isSelected,
   isToggling,
+  isDisabled,
   onSelect,
   onToggle,
 }: Props) {
@@ -32,12 +34,13 @@ export function DayCell({
   return (
     <div
       className={`
-        relative aspect-square rounded-lg cursor-pointer flex flex-col items-center justify-center
+        relative aspect-square rounded-lg flex flex-col items-center justify-center
         transition-all select-none
         ${heatmapClass} ${selectedRing} ${myBorder}
-        ${isToggling ? 'opacity-50' : 'hover:opacity-90'}
+        ${isDisabled ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'}
+        ${isToggling ? 'opacity-50' : !isDisabled ? 'hover:opacity-90' : ''}
       `}
-      onClick={onSelect}
+      onClick={isDisabled ? undefined : onSelect}
     >
       <span
         className={`text-sm font-medium ${
@@ -55,15 +58,18 @@ export function DayCell({
           e.stopPropagation()
           onToggle()
         }}
+        disabled={isDisabled}
         className={`
           absolute bottom-0.5 right-0.5 w-4 h-4 rounded-full text-xs flex items-center justify-center
           transition-colors
-          ${isMySchedule
-            ? 'bg-green-600 text-white hover:bg-red-500'
-            : 'bg-white border border-gray-300 text-gray-400 hover:bg-green-100 hover:border-green-400'
+          ${isDisabled
+            ? 'bg-gray-300 text-gray-400 cursor-not-allowed'
+            : isMySchedule
+              ? 'bg-green-600 text-white hover:bg-red-500 cursor-pointer'
+              : 'bg-white border border-gray-300 text-gray-400 hover:bg-green-100 hover:border-green-400 cursor-pointer'
           }
         `}
-        title={isMySchedule ? '클릭하여 취소' : '클릭하여 참여'}
+        title={isDisabled ? '상태가 확정되어 수정할 수 없습니다' : isMySchedule ? '클릭하여 취소' : '클릭하여 참여'}
       >
         {isMySchedule ? '✓' : '+'}
       </button>

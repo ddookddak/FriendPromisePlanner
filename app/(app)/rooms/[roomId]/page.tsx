@@ -21,6 +21,7 @@ interface Room {
   endDate: Date
   createdBy: string
   status: string
+  confirmedDate: string | null
   participants: Array<{ id: string; name: string }>
   _count: { schedules: number }
 }
@@ -30,6 +31,12 @@ export default function RoomPage({ params }: Props) {
   const [room, setRoom] = useState<Room | null>(null)
   const [currentUserName, setCurrentUserName] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+
+  const handleStatusChange = (newStatus: string, confirmedDate: string | null) => {
+    if (room) {
+      setRoom({ ...room, status: newStatus, confirmedDate })
+    }
+  }
 
   useEffect(() => {
     const nickname = localStorage.getItem('nickname')
@@ -66,6 +73,7 @@ export default function RoomPage({ params }: Props) {
                   roomId={room.id}
                   initialStatus={room.status as 'OPEN' | 'CONFIRMED' | 'CLOSED'}
                   currentUserName={currentUserName || ''}
+                  onStatusChange={handleStatusChange}
                 />
               ) : (
                 <span
@@ -93,6 +101,14 @@ export default function RoomPage({ params }: Props) {
           </div>
         </div>
 
+        {room.status === 'CONFIRMED' && room.confirmedDate && (
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-sm text-blue-800 font-medium">
+              ✓ 확정된 약속일: <strong>{new Date(room.confirmedDate).toLocaleDateString('ko-KR')}</strong>
+            </p>
+          </div>
+        )}
+
         {!isMember && (
           <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <p className="text-sm text-yellow-800 mb-3">이 방에 아직 참여하지 않았습니다.</p>
@@ -108,6 +124,7 @@ export default function RoomPage({ params }: Props) {
           endDate={typeof room.endDate === 'string' ? room.endDate : room.endDate.toISOString()}
           totalMembers={room.participants.length}
           currentUserName={currentUserName || ''}
+          roomStatus={room.status}
         />
       )}
     </div>
