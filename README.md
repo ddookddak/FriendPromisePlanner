@@ -38,7 +38,7 @@
 
 1. **저장소 클론**
    ```bash
-   git clone https://github.com/kdh19911031/FriendPromisePlanner.git
+   git clone https://github.com/ddookddak/FriendPromisePlanner.git
    cd FriendPromisePlanner
    ```
 
@@ -275,11 +275,11 @@ ISC
 ## 기여하기
 
 버그 리포트, 기능 요청, PR을 환영합니다.  
-[GitHub 이슈](https://github.com/kdh19911031/FriendPromisePlanner/issues)에 등록해주세요.
+[GitHub 이슈](https://github.com/ddookddak/FriendPromisePlanner/issues)에 등록해주세요.
 
 ---
 
 ## 지원
 
 문제가 있거나 궁금한 점이 있으시면:  
-[GitHub 이슈](https://github.com/kdh19911031/FriendPromisePlanner/issues)
+[GitHub 이슈](https://github.com/ddookddak/FriendPromisePlanner/issues)
