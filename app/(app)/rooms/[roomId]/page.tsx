@@ -35,6 +35,7 @@ export default function RoomPage({ params }: Props) {
     try {
       const res = await fetch(`/api/rooms/${params.roomId}`)
       const data = await res.json()
+      console.log('Room fetched:', data)
       setRoom(data)
     } catch (error) {
       console.error('Failed to fetch room:', error)
@@ -48,6 +49,7 @@ export default function RoomPage({ params }: Props) {
   }
 
   const handleJoinSuccess = () => {
+    console.log('Join successful, fetching room...')
     fetchRoom()
   }
 
