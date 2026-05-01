@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
 import { CalendarView } from '@/components/calendar/CalendarView'
 import { JoinRoomButton } from '@/components/room/JoinRoomButton'
 import { CopyLinkButton } from '@/components/room/CopyLinkButton'
